@@ -2,10 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imataapp/features/auth/domain/auth_state.dart';
 import 'package:imataapp/features/auth/firebase/firebase_call_auth.dart';
 
-final logInProvider = StateNotifierProvider<LogInNotifier, LogInState>((ref) {
-  return LogInNotifier();
-});
-
 class LogInNotifier extends StateNotifier<LogInState> {
   LogInNotifier() : super(LogInState.initial());
 
@@ -17,17 +13,21 @@ class LogInNotifier extends StateNotifier<LogInState> {
     state = state.copyWith(password: value, status: LogInStatus.initial);
   }
 
-  void logInWithCredentials() async {
-    if (!state.isValid) return;
+  Future<bool> logInWithCredentials() async {
+    if (!state.isValid) return false;
     try {
       var result = await AuthRepositry()
           .LogIn(email: state.email, password: state.password);
-      print('sssssssssssssssssssssssssssssssssssssssss');
       print('id : ${result!.uid}');
       state = state.copyWith(id: result!.uid);
       state = state.copyWith(status: LogInStatus.success);
+      return true; // login was successful
     } catch (e) {
       print('nice error');
+      return false; // login failed
     }
   }
 }
+
+final logInProvider =
+    StateNotifierProvider<LogInNotifier, LogInState>((ref) => LogInNotifier());

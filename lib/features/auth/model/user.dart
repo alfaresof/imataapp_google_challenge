@@ -12,7 +12,6 @@ class UserModel {
       required this.reports,
       required this.photos});
 
-  @override
   List<Object?> get props => [id, name, reports, photos];
 
   static UserModel fromSnapshot(DocumentSnapshot snapshot) {
