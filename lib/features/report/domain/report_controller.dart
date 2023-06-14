@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imataapp/common/database/base_database.dart';
 import 'package:imataapp/features/auth/domain/auth_controller.dart';
@@ -10,13 +11,8 @@ import 'package:imataapp/features/report/domain/report_state.dart';
 import 'package:tflite/tflite.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-final nweReportProvider =
-    StateNotifierProvider<NewReportNotifier, NewReportState>((ref) {
-  return NewReportNotifier();
-});
-
 class NewReportNotifier extends StateNotifier<NewReportState> {
-  NewReportNotifier() : super(NewReportState.Initial());
+  NewReportNotifier() : super(NewReportState.initial());
 
   void loadModel() async {
     await Tflite.loadModel(
@@ -49,18 +45,23 @@ class NewReportNotifier extends StateNotifier<NewReportState> {
   Future<void> getReports(ref) async {
     final FirebaseFirestore db = FirebaseFirestore.instance;
     final stateSignUp = ref.watch(signUpProvider);
+    final stateLogIn = ref.watch(logInProvider);
+
     final res = await db
         .collection('reports')
-        .where('id', isEqualTo: stateSignUp.id)
+        .where('id',
+            isEqualTo: stateLogIn.id.toString().isNotEmpty
+                ? stateLogIn.id
+                : stateSignUp.id)
         .get();
     List<ReportModel> result = [];
-    res.docs.forEach((element) {
+    for (var element in res.docs) {
       result.add(ReportModel.fromJson(element.data()));
-    });
+    }
     state = state.copyWith(reports: result);
   }
 
-  void uploadImageAndSetReport(ref) async {
+  Future<void> uploadImageAndSetReport(ref) async {
     final firebase_storage.FirebaseStorage stor =
         firebase_storage.FirebaseStorage.instance;
     final stateLogIn = ref.watch(logInProvider);
@@ -68,31 +69,36 @@ class NewReportNotifier extends StateNotifier<NewReportState> {
     String urlup = "";
 
     try {
-      var result = await stor.ref('files/image');
-      if (stateSignUp.id != null) {
-        var result = await stor.ref('files/${state.file.path}');
-      } else if (stateLogIn.id != null) {
-        var result = await stor.ref('files/${state.file.path}');
-      } else {}
+      var now = DateTime.now();
 
-      final snapshot = await result.putFile(File(state.file.path));
-      urlup = await snapshot.ref.getDownloadURL();
+      var email =
+          stateLogIn.id.toString().isNotEmpty ? stateLogIn.id : stateSignUp.id;
+      var fileName =
+          '$email-${now.year}-${now.month}-${now.day}_${now.hour}-${now.minute}-${now.second}';
+      var result = stor.ref('files/$fileName');
+      final fileResponse = await result.putFile(
+        File(state.file.path),
+      );
+      urlup = await fileResponse.ref.getDownloadURL();
       print(urlup);
     } catch (_) {}
-    if (stateLogIn.id.toString().isNotEmpty) {
-      final result = DatabaseRepositry().newReport(
-          id: stateLogIn.id.toString(),
-          description: state.description.text,
-          path: urlup,
-          location: "");
-      print(result);
-    } else {
-      final result = DatabaseRepositry().newReport(
-          id: stateSignUp.id.toString(),
-          description: state.description.text,
-          path: urlup,
-          location: "");
-      print(result);
-    }
+    var id =
+        stateLogIn.id.toString().isNotEmpty ? stateLogIn.id : stateSignUp.id;
+    await DatabaseRepositry().newReport(
+        id: id, description: state.description.text, path: urlup, location: "");
+  }
+
+  void reset() {
+    print('reset');
+    state = state.copyWith(
+      file: File(''),
+      description: TextEditingController(),
+      output: [],
+    );
   }
 }
+
+final nweReportProvider =
+    StateNotifierProvider<NewReportNotifier, NewReportState>((ref) {
+  return NewReportNotifier();
+});

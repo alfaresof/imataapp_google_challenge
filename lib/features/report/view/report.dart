@@ -22,7 +22,6 @@ class _ReportState extends ConsumerState<Report> {
     var size = MediaQuery.of(context).size;
     var height = size.height;
     var width = size.width;
-    final loginController = ref.read(logInProvider.notifier);
     final loginState = ref.watch(logInProvider);
     final signUpState = ref.watch(signUpProvider);
     return Scaffold(
@@ -42,7 +41,7 @@ class _ReportState extends ConsumerState<Report> {
               child: text('report', 25, FontWeight.normal, Colors.black87,
                   TextAlign.left),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Center(
@@ -70,7 +69,7 @@ class _ReportState extends ConsumerState<Report> {
                             height: height / 6.3,
                             decoration: BoxDecoration(
                                 color: darkGrey.withOpacity(0.6),
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(20),
                                     bottomRight: Radius.circular(20))),
                             child: Column(
@@ -81,7 +80,7 @@ class _ReportState extends ConsumerState<Report> {
                                     FontWeight.normal,
                                     Colors.white,
                                     TextAlign.center),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 ElevatedButton(
@@ -90,8 +89,8 @@ class _ReportState extends ConsumerState<Report> {
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
                                     ),
-                                    padding:
-                                        EdgeInsets.fromLTRB(60, 10, 60, 10),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        60, 10, 60, 10),
                                   ),
                                   child: text('try it !', 20, FontWeight.bold,
                                       Colors.white, TextAlign.center),

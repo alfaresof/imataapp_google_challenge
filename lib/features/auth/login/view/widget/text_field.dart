@@ -15,6 +15,6 @@ TextFormField CustomTextFormField(String hint, Function(String) fun, bool hide,
           ),
           filled: true,
           hintStyle: TextStyle(color: Colors.grey[800]),
-          hintText: "${hint}",
+          hintText: hint,
           fillColor: lightyGreen),
     );

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -13,7 +11,7 @@ class DatabaseRepositry extends BaseDatabaseRepositry {
   Future<Stream<UserModel>> getName({required String id}) async {
     return db
         .collection('users')
-        .doc('$id')
+        .doc(id)
         .snapshots()
         .map((event) => UserModel.fromSnapshot(event));
   }
@@ -39,8 +37,8 @@ class DatabaseRepositry extends BaseDatabaseRepositry {
       required String description,
       required String path,
       required String location}) async {
-    final result = await db.collection('reports').doc();
-    result.set({
+    final result = db.collection('reports').doc();
+    await result.set({
       'id': id,
       'docid': result.id,
       'desctiption': description,
@@ -58,7 +56,7 @@ class DatabaseRepositry extends BaseDatabaseRepositry {
   @override
   Future<Query<Map<String, dynamic>>> getReport({required String id}) async {
     Query<Map<String, dynamic>> result =
-        await db.collection('reports').where({'id': id});
+        db.collection('reports').where({'id': id});
     return result;
   }
 }

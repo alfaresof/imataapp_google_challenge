@@ -30,7 +30,7 @@ class _LogInState extends ConsumerState<LogIn> {
     final loginController = ref.read(logInProvider.notifier);
     final loginState = ref.read(logInProvider);
 
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -41,7 +41,7 @@ class _LogInState extends ConsumerState<LogIn> {
           children: [
             Image.asset('assets/robot.png'),
             Form(
-              key: _formKey,
+              key: formKey,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(

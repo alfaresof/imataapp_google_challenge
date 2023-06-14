@@ -19,7 +19,7 @@ class LogInNotifier extends StateNotifier<LogInState> {
       var result = await AuthRepositry()
           .LogIn(email: state.email, password: state.password);
       print('id : ${result!.uid}');
-      state = state.copyWith(id: result!.uid);
+      state = state.copyWith(id: result.uid);
       state = state.copyWith(status: LogInStatus.success);
       return true; // login was successful
     } catch (e) {

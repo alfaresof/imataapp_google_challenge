@@ -25,6 +25,7 @@ class AuthRepositry extends BaseAuthRepositry {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   @override
@@ -44,5 +45,6 @@ class AuthRepositry extends BaseAuthRepositry {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 }

@@ -10,9 +10,9 @@ class ReportModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['photoPath'] = this.path;
-    data['finish'] = this.finish;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['photoPath'] = path;
+    data['finish'] = finish;
     return data;
   }
 }

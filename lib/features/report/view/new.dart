@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,7 +13,7 @@ class NewReport extends ConsumerStatefulWidget {
   static Route route() {
     return MaterialPageRoute(
         settings: const RouteSettings(name: routename),
-        builder: (context) => NewReport());
+        builder: (context) => const NewReport());
   }
 
   const NewReport({
@@ -34,19 +33,13 @@ class _NewReportState extends ConsumerState<NewReport> {
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
           scrollDirection: Axis.vertical,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Center(
               child: Column(
                 children: <Widget>[
-                  // Padding(
-                  //   padding:
-                  //       const EdgeInsets.only(left: 8.0, bottom: 6.0, top: 50),
-                  //   child: text('Location', 25, FontWeight.bold, Colors.black,
-                  //       TextAlign.left),
-                  // ),
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 8.0, bottom: 6.0, top: 50),
@@ -59,11 +52,10 @@ class _NewReportState extends ConsumerState<NewReport> {
                     false,
                     newReportState.description,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-                  if (newReportState.output != null &&
-                      newReportState.output.isNotEmpty)
+                  if (newReportState.output.isNotEmpty)
                     Text(
                       newReportState.output[0]['label'] == '0 Full'
                           ? 'it\' full !'
@@ -76,7 +68,7 @@ class _NewReportState extends ConsumerState<NewReport> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   ElevatedButton(
@@ -86,7 +78,7 @@ class _NewReportState extends ConsumerState<NewReport> {
                         borderRadius: BorderRadius.circular(20),
                         side: BorderSide(color: darkGreen),
                       ),
-                      padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
+                      padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
                     ),
                     child: Row(
                       children: [
@@ -111,10 +103,9 @@ class _NewReportState extends ConsumerState<NewReport> {
                           .pickImage(source: ImageSource.camera);
                       newReportController.setImage(result!.path);
                       newReportController.classifyImage();
-                      print(result!.path);
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   ElevatedButton(
@@ -123,15 +114,25 @@ class _NewReportState extends ConsumerState<NewReport> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
+                      padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
                     ),
                     child: text('Report', 20, FontWeight.bold, Colors.white,
                         TextAlign.center),
-                    onPressed: () {
-                      if (newReportState.file != null) {
-                        newReportController.uploadImageAndSetReport(ref);
-                        Navigator.pushReplacementNamed(
-                            context, HomePage.routename);
+                    onPressed: () async {
+                      if (newReportState.file.path.isNotEmpty) {
+                        await newReportController
+                            .uploadImageAndSetReport(ref)
+                            .whenComplete(() {
+                          ref.read(nweReportProvider.notifier).reset();
+                          Navigator.pushReplacementNamed(
+                              context, HomePage.routename);
+                        });
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please add an image'),
+                          ),
+                        );
                       }
                     },
                   ),
