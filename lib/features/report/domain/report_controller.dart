@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imataapp/common/database/base_database.dart';
-import 'package:imataapp/common/upload_image/image_repositry.dart';
 import 'package:imataapp/features/auth/domain/auth_controller.dart';
 import 'package:imataapp/features/auth/domain/sign_up_controller.dart';
 import 'package:imataapp/features/report/domain/report_model.dart';
@@ -58,7 +57,6 @@ class NewReportNotifier extends StateNotifier<NewReportState> {
     res.docs.forEach((element) {
       result.add(ReportModel.fromJson(element.data()));
     });
-    // print(result[3].path);
     state = state.copyWith(reports: result);
   }
 

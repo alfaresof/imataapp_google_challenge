@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imataapp/config/color.dart';
@@ -9,7 +10,7 @@ class LastReports extends ConsumerStatefulWidget {
   static Route route() {
     return MaterialPageRoute(
         settings: const RouteSettings(name: routename),
-        builder: (context) => LastReports());
+        builder: (context) => const LastReports());
   }
 
   const LastReports({
@@ -24,6 +25,7 @@ class _LastReportsState extends ConsumerState<LastReports> {
   @override
   Widget build(BuildContext context) {
     final reportsState = ref.watch(nweReportProvider);
+    final user = FirebaseAuth.instance.currentUser;
     final reportsController = ref.watch(nweReportProvider.notifier);
     reportsController.getReports(ref);
     return Scaffold(
@@ -41,14 +43,26 @@ class _LastReportsState extends ConsumerState<LastReports> {
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         child: Wrap(
           verticalDirection: VerticalDirection.down,
           children: [
+            // text of subtitle
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                user!.email.toString(),
+                style: TextStyle(
+                  fontSize: 10,
+                  color: darkGreen,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             GridView.builder(
-              gridDelegate:
-                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-              physics: ScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2),
+              physics: const ScrollPhysics(),
               shrinkWrap: true,
               itemCount: reportsState.reports.length,
               itemBuilder: (context, index) {
