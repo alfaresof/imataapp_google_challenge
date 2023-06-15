@@ -38,8 +38,6 @@ class NewReportNotifier extends StateNotifier<NewReportState> {
       imageMean: 127.5,
     );
     state = state.copyWith(output: output);
-    print('result is :');
-    print(output);
   }
 
   Future<void> getReports(ref) async {
@@ -80,7 +78,6 @@ class NewReportNotifier extends StateNotifier<NewReportState> {
         File(state.file.path),
       );
       urlup = await fileResponse.ref.getDownloadURL();
-      print(urlup);
     } catch (_) {}
     var id =
         stateLogIn.id.toString().isNotEmpty ? stateLogIn.id : stateSignUp.id;
@@ -89,7 +86,6 @@ class NewReportNotifier extends StateNotifier<NewReportState> {
   }
 
   void reset() {
-    print('reset');
     state = state.copyWith(
       file: File(''),
       description: TextEditingController(),

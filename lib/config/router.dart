@@ -6,8 +6,6 @@ import 'package:imataapp/features/report/view/new.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
-    print('the router setting ${settings.name}');
-
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(

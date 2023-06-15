@@ -58,11 +58,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                     ),
                     CustomTextFormField(
                       'name',
-                      (value) {
-                        signUpController.nameChange(value);
-                        // context.read<RegisterCubit>().nameChange(value);
-                        // print(state.email);
-                      },
+                      signUpController.nameChange,
                       false,
                       signUpState.nameController,
                     ),
@@ -76,9 +72,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                     ),
                     CustomTextFormField(
                       'email',
-                      (value) {
-                        signUpController.emailChanged(value);
-                      },
+                      signUpController.emailChanged,
                       false,
                       signUpState.emailController,
                     ),
@@ -92,7 +86,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                     ),
                     CustomTextFormField(
                       'password',
-                      (value) {},
+                      signUpController.passwordChanged,
                       true,
                       signUpState.passwordController,
                     ),
@@ -111,9 +105,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                         child: text('try it !', 20, FontWeight.bold,
                             Colors.white, TextAlign.center),
                         onPressed: () {
-                          print(signUpState.email);
                           signUpController.registerWithCredentials(context);
-                          print('nice error');
                         },
                       ),
                     ),

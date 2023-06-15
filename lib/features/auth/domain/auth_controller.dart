@@ -15,17 +15,17 @@ class LogInNotifier extends StateNotifier<LogInState> {
 
   Future<bool> logInWithCredentials() async {
     if (!state.isValid) return false;
-    try {
-      var result = await AuthRepositry()
-          .LogIn(email: state.email, password: state.password);
-      print('id : ${result!.uid}');
-      state = state.copyWith(id: result.uid);
+    var isLogIn = false;
+    await AuthRepositry()
+        .LogIn(email: state.email, password: state.password)
+        .then((value) {
+      state = state.copyWith(id: value?.uid);
       state = state.copyWith(status: LogInStatus.success);
-      return true; // login was successful
-    } catch (e) {
-      print('nice error');
-      return false; // login failed
-    }
+      isLogIn = true;
+    }).catchError((e) {
+      state = state.copyWith(status: LogInStatus.error);
+    });
+    return isLogIn;
   }
 }
 

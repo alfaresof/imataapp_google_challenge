@@ -13,19 +13,11 @@ class AuthRepositry extends BaseAuthRepositry {
       {required String name,
       required String email,
       required String password}) async {
-    try {
-      print(email);
-      // print(password);
-      final creditinal = await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      final user = creditinal.user;
-      await DatabaseRepositry().sendName(id: user!.uid.toString(), name: name);
-      print(name);
-      return user;
-    } catch (e) {
-      print(e);
-    }
-    return null;
+    final creditinal = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email, password: password);
+    final user = creditinal.user;
+    await DatabaseRepositry().sendName(id: user!.uid.toString(), name: name);
+    return user;
   }
 
   @override
@@ -34,17 +26,8 @@ class AuthRepositry extends BaseAuthRepositry {
   @override
   Future<auth.User?> LogIn(
       {required String email, required String password}) async {
-    try {
-      print(email);
-      // print(password);
-      final creditinal = await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
-      final user = creditinal.user;
-
-      return user;
-    } catch (e) {
-      print(e);
-    }
-    return null;
+    final creditinal = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
+    return creditinal.user;
   }
 }
