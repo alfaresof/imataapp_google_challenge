@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imataapp/config/color.dart';
 import 'package:imataapp/features/auth/domain/sign_up_controller.dart';
@@ -29,19 +28,19 @@ class SignUp extends ConsumerStatefulWidget {
 class _SignUpState extends ConsumerState<SignUp> {
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final signUpState = ref.watch(signUpProvider);
     final signUpController = ref.watch(signUpProvider.notifier);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset('assets/robot.png'),
             Form(
-              key: _formKey,
+              key: formKey,
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -49,7 +48,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                   children: <Widget>[
                     text('Sign Up', 30, FontWeight.w900, Colors.black87,
                         TextAlign.left),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     Padding(
@@ -59,15 +58,11 @@ class _SignUpState extends ConsumerState<SignUp> {
                     ),
                     CustomTextFormField(
                       'name',
-                      (value) {
-                        signUpController.nameChange(value);
-                        // context.read<RegisterCubit>().nameChange(value);
-                        // print(state.email);
-                      },
+                      signUpController.nameChange,
                       false,
                       signUpState.nameController,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Padding(
@@ -77,13 +72,11 @@ class _SignUpState extends ConsumerState<SignUp> {
                     ),
                     CustomTextFormField(
                       'email',
-                      (value) {
-                        signUpController.emailChanged(value);
-                      },
+                      signUpController.emailChanged,
                       false,
                       signUpState.emailController,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Padding(
@@ -93,11 +86,11 @@ class _SignUpState extends ConsumerState<SignUp> {
                     ),
                     CustomTextFormField(
                       'password',
-                      (value) {},
+                      signUpController.passwordChanged,
                       true,
                       signUpState.passwordController,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Center(
@@ -107,14 +100,12 @@ class _SignUpState extends ConsumerState<SignUp> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          padding: EdgeInsets.fromLTRB(60, 10, 60, 10),
+                          padding: const EdgeInsets.fromLTRB(60, 10, 60, 10),
                         ),
                         child: text('try it !', 20, FontWeight.bold,
                             Colors.white, TextAlign.center),
                         onPressed: () {
-                          print(signUpState.email);
                           signUpController.registerWithCredentials(context);
-                          print('nice error');
                         },
                       ),
                     ),

@@ -10,7 +10,7 @@ class HomePage extends ConsumerStatefulWidget {
   static Route route() {
     return MaterialPageRoute(
         settings: const RouteSettings(name: routename),
-        builder: (context) => HomePage());
+        builder: (context) => const HomePage());
   }
 
   const HomePage({

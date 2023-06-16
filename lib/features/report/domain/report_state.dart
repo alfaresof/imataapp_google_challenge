@@ -18,7 +18,7 @@ class NewReportState {
     required this.reports,
   });
 
-  factory NewReportState.Initial() {
+  factory NewReportState.initial() {
     return NewReportState(
       description: TextEditingController(),
       output: [],

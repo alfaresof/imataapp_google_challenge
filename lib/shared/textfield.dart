@@ -14,7 +14,7 @@ TextFormField CustomTextFormField(
           ),
           filled: true,
           hintStyle: TextStyle(color: Colors.grey[800]),
-          hintText: "${hint}",
+          hintText: hint,
           fillColor: lightyGreen),
     );
 
@@ -36,6 +36,6 @@ TextFormField BigCustomTextFormField(String hint, Function(String) fun,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 100.0, horizontal: 10.0),
           hintStyle: TextStyle(color: Colors.grey[800]),
-          hintText: "${hint}",
+          hintText: hint,
           fillColor: lightyGreen),
     );

@@ -44,7 +44,7 @@ class LogInState {
         email: email ?? this.email,
         password: password ?? this.password,
         status: status ?? this.status,
-        passwordController: nameController ?? this.passwordController,
+        passwordController: nameController ?? passwordController,
         emailController: emailController ?? this.emailController);
   }
 

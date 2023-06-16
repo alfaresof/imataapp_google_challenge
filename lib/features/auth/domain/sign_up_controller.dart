@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:imataapp/features/auth/domain/sign_up_state.dart';
 import 'package:imataapp/features/auth/firebase/firebase_call_auth.dart';
-import 'package:imataapp/features/auth/login/view/login.dart';
-import 'package:imataapp/features/auth/sign_up/view/sign_up.dart';
 import 'package:imataapp/features/home/view/home.dart';
 
 final signUpProvider =

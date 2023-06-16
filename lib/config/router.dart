@@ -6,8 +6,6 @@ import 'package:imataapp/features/report/view/new.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
-    print('the router setting ${settings.name}');
-
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(
@@ -31,10 +29,10 @@ class AppRouter {
     return MaterialPageRoute(
       builder: (_) => Scaffold(
         appBar: AppBar(
-          title: Text('error'),
+          title: const Text('error'),
         ),
       ),
-      settings: RouteSettings(name: '/error'),
+      settings: const RouteSettings(name: '/error'),
     );
   }
 }

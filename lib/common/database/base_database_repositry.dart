@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:imataapp/features/auth/model/user.dart';
 
 abstract class BaseDatabaseRepositry {
